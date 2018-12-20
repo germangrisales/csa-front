@@ -245,6 +245,13 @@ class ModulesMonthChart extends Component {
             console.log("componentWillReceiveProps")
             console.log("componentWillReceiveProps")
             console.log("componentWillReceiveProps")
+
+        this.setState({
+
+            metricsDay: this.props.metricsMonth,
+            dateData: this.props.dateData
+
+        })
         
 
             console.log("Data Metric Month: Props")

@@ -208,8 +208,6 @@ class Temperature extends Component{
 
                     </div> 
                 </div>
-
-                <h5 className="card teal darken-1 white-text center hoverable">Promedio de temperatura del dias: {this.state.dayAverage}ºC</h5>
                 
                 {
                

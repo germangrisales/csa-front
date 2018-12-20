@@ -174,7 +174,8 @@ class ModulesDayChart extends Component {
     
         this.setState({
 
-            metricsDay: this.props.metricsDay
+            metricsDay: this.props.metricsDay,
+            dateData: this.props.dateData
 
         })
 

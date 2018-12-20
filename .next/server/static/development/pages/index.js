@@ -1320,9 +1320,7 @@ function (_Component) {
       }, "Seleccione el d\xEDa que desee consultar.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_Calendar_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         name: "date",
         onChange: this.reciveDataDay
-      }, " "))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h5", {
-        className: "card teal darken-1 white-text center hoverable"
-      }, "Promedio de temperatura del dias: ", this.state.dayAverage, "\xBAC"), this.state.metricsDayBoolean === true && this.state.metricsMonthBoolean === true ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_chart_ModulesDayChart_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, " "))), this.state.metricsDayBoolean === true && this.state.metricsMonthBoolean === true ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_helpers_chart_ModulesDayChart_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
         metrica: this.state.metrica,
         metric: "Temperature",
         unidad: "\xBAC",
@@ -2071,7 +2069,8 @@ function (_Component) {
       // con base a las nuevas propiedades.
 
       this.setState({
-        metricsDay: this.props.metricsDay
+        metricsDay: this.props.metricsDay,
+        dateData: this.props.dateData
       }); // Se evalua la métrica para saber si es temperatura, calidad de aire, humedad
       // y dependiendo del resultado se le manda dentro del al setState this.state.metricsDay.temperature
 
@@ -2330,7 +2329,8 @@ function (_Component) {
       // con base a las nuevas propiedades.
 
       this.setState({
-        metricsDay: this.props.metricsDay
+        metricsDay: this.props.metricsDay,
+        dateData: this.props.dateData
       }); // Se evalua la métrica para saber si es temperatura, calidad de aire, humedad
       // y dependiendo del resultado se le manda dentro del al setState this.state.metricsDay.temperature
 
@@ -2645,7 +2645,8 @@ function (_Component) {
       // método llamado al recibir nuevas propiedades que sirve para actualizar el estado
       // con base a las nuevas propiedades.
       this.setState({
-        metricsDay: this.props.metricsDay
+        metricsDay: this.props.metricsDay,
+        dateData: this.props.dateData
       }); // Se evalua la métrica para saber si es temperatura, calidad de aire, humedad
       // y dependiendo del resultado se le manda dentro del al setState this.state.metricsDay.temperature
 
@@ -3043,6 +3044,10 @@ function (_Component) {
       console.log("componentWillReceiveProps");
       console.log("componentWillReceiveProps");
       console.log("componentWillReceiveProps");
+      this.setState({
+        metricsDay: this.props.metricsMonth,
+        dateData: this.props.dateData
+      });
       console.log("Data Metric Month: Props");
       console.log(this.props.metricsMonth);
       console.log("Data Metric Month: State");
