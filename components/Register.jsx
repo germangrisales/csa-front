@@ -1,22 +1,24 @@
 import {
-    DialogActions, AccountCircleIcon, TextField, DialogContentText, DialogContent, DialogTitle, Dialog, withStyles, Button 
+    withStyles, MenuItem, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, withMobileDialog
 } from "../components/helpers/MaterialUi.jsx"
 // Todo los componentes material UI se deben agregar en "./helpers/MaterialUi.jsx
+
+import SubmitButton from '../components/helpers/SubmitButton.jsx';
 
 import React,{Fragment} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Register from '../components/Register.jsx'
+// impor
 
-import SubmitButton from '../components/helpers/SubmitButton.jsx';
+
+//import CSALogo from '../media/CSA.jpg'
 
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-
   },
   textField: {
     width: 500,
@@ -29,32 +31,28 @@ const styles = theme => ({
   menu: {
     width: 200,
   },
-  containe: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    marginTop: '1.5em',
-  },
-  item: {
-    verticalAlign:'middle',
-  },
 });
 
 
-class Login extends React.Component {
+class Register extends React.Component {
 
     constructor(...props){
         super(...props)
     
         this.state = { 
-            open: true,
+            open: false,
             form:{
+              name:'', 
+              profession:'',
+              description: '', 
               email: '',
+              tel: '',
               password: ''
             }
            
         }
         
-       // this.handleOnSubmit = this.handleOnSubmit.bind(this)
+        this.handleOnSubmit = this.handleOnSubmit.bind(this)
       this.handleClickOpen = this.handleClickOpen.bind(this)
       this.handleClose = this.handleClose.bind(this)
       this.handleChange = this.handleChange.bind(this)
@@ -92,33 +90,32 @@ class Login extends React.Component {
 
   handleChange(e) {
 
-    console.log(e.target) //+ " name:"+name 
-    console.log(this.state)
-    
+  console.log(e.target) //+ " name:"+name 
+  console.log(this.state)
+  
 
-    const { target: {name,value} } = e
+  const { target: {name,value} } = e
 
     this.setState({
-        
-        form:{
-            ...this.state.form,
-            [name]: value
-        } 
+     
+      form:{
+        ...this.state.form,
+        [name]: value
+      } 
     })
   }
 
   render() {
     const { classes } = this.props;
-    const { open, form:{email, password} } = this.state;
+      const { open, form: {name,profession,description,email,tel,password} } = this.state;
 
 
     return (
 
     <Fragment>
+        <Button onClick={this.handleClickOpen}>Registrarme</Button>
         
-        <Button onClick={this.handleClickOpen}>Login</Button>
-        
-        <Dialog // <Dialog> Aqui va todo el Login </Dialog>
+        <Dialog // <Dialog> Aqui va todo el Register </Dialog>
           // fullScreen={fullScreen}
           open={this.state.open}
           onClose={this.handleClose}
@@ -129,7 +126,7 @@ class Login extends React.Component {
           
              {/* {CSAlogo}  */}
             
-            CSA: Control Sistematizado Avícola
+            CSA: Formulario de Registro.
           
           </DialogTitle>
           
@@ -137,11 +134,57 @@ class Login extends React.Component {
             {/* Aqui se mete el contenido */}
             
               <DialogContentText>
-                Ingrese su información para validar el acceso:
+                Ingrese su información para crear una cuenta:
               </DialogContentText>
 
             <form onSubmit={this.handleOnSubmit} className={classes.container} noValidate autoComplete="off">
-
+                
+                <TextField
+                  id="standard-name"
+                  name="name"
+                  label="Nombre y apellido"
+                  className={classes.textField}
+                  value={this.state.name}
+                  onChange={this.handleChange}
+                  margin="normal"
+                  autoComplete="name"
+                />
+              <br/>
+              <TextField
+                id="standard-name"
+                name="profession"
+                label="Profesión"
+                className={classes.textField}
+                value={profession}
+                onChange={this.handleChange}
+                margin="normal"
+                autoComplete="profession"
+              />
+               <br />
+               <TextField
+                   id="standard-multiline-flexible"
+                   name="description"
+                   label="Descripción"
+                   multiline
+                   rowsMax="5"
+                   value={description}
+                   onChange={this.handleChange}
+                   className={classes.textField}
+                   margin="normal"
+               />
+               <br/>
+               <TextField
+                   id="standard-number"
+                   name="tel"
+                   label="Teléfono"
+                   type="number"
+                   className={classes.textField}
+                   value={tel}
+                   onChange={this.handleChange}
+                   margin="normal"
+                autoComplete="number"
+               />
+               <br/>
               <TextField
                 name="email"
                 label="E-mail"
@@ -157,7 +200,7 @@ class Login extends React.Component {
               <TextField
                 id="standard-password-input"
                 name="password"
-                label="Contraseña"
+                label="password"
                 className={classes.textField}
                 type="password"
                 value={password}
@@ -167,38 +210,25 @@ class Login extends React.Component {
               />
     
             </form>
-            <br/>
-            <DialogContentText className={classes.containe}>
-              No estas registrado?
-              <br />
-            <div className={classes.containe}>
-            
-              <Register className={classes.item}/>
-            
-              <AccountCircleIcon className={classes.item}/>
-
-            </div>    
-            </DialogContentText>
-
-
           </DialogContent>
+
 
           <DialogActions>
             {/* Aqui se mete los botones que realizn acciones */}
            
             <div onClick={this.handleClose}>
-              <SubmitButton handleOnClick={this.props.handleOnSubmit}  color="primary">
+              <SubmitButton  color="primary">
               </SubmitButton>
             </div>
-
           </DialogActions>
+         
         </Dialog>
     </Fragment>
     );
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(Login);
+export default withStyles(styles)(Register);

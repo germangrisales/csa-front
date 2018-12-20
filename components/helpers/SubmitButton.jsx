@@ -29,7 +29,7 @@ function SubmitButton(props) {
     return (
         <div>
 
-            <Button variant="contained" color="primary" className={classes.button}>
+            <Button onClick={props.handleOnClick} variant="contained" color="primary" className={classes.button}>
                 Send
                  <SendIcon className={classes.rightIcon}/>
             </Button>

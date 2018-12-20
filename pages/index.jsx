@@ -1,72 +1,65 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// Entry Point Next.js: index.jsx 
 
-import {
-    AppBar, Toolbar, Typography, IconButton, withStyles, MenuIcon, Button
-} from "../components/helpers/MaterialUi.jsx"
-// Todo los componentes material UI se deben agregar en "./helpers/MaterialUi.jsx
+// Desplegará unicamente Login:(Dialog MaterialUI)
 
+// Si estas autenticado => CSA
+// sino => Register.
 
+import React, { Component, Fragment } from 'react';
+import Link from 'next/link'
+
+//Componentes 
 import Login from './Login.jsx'
+import Csa from './Csa.jsx'
 
-import Socket from "../components/Socket.jsx"
 
-// Se importa las paginas
+class App extends React.Component {
+    
+    constructor(...props) {
+        super(...props)
 
-// import Home from ''
-// import Register from ''
-// import Login from ''
+        this.state = {
+            
+            authed: false 
+        }
+  
+        this.handleOnSubmit = this.handleOnSubmit.bind(this)
+        this.handleLogout = this.handleLogout.bind(this)
+    
+    }
 
-const styles = {
-    root: {
+    handleOnSubmit(){
 
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
-};
+        this.setState({
+            authed: true
+        })
+        
+    }
 
-function NavBar(props) {
-    const { classes } = props;
-    return (
-        <div className={classes.root}>
-            <AppBar position="static">
+    handleLogout() {
 
-                <Toolbar>
+        this.setState({
+            authed: false
+        })
 
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+    }
 
-                        <MenuIcon />
+    render() {
 
-                    </IconButton>
-
-                    <Typography variant="h6" color="inherit" className={classes.grow}>
-                        CSA
-                    </Typography>
-
-                    <Button color="inherit">Acerca</Button>
-
-                    <Button color="inherit">Register</Button>
-
-                    <Button color="inherit"><Login color="inherit" style='color: white' /></Button>
-
-                    
-
-                </Toolbar>
-
-            </AppBar>
-
-            <Socket/>
-
-        </div>
-    );
+        return this.state.authed === true
+                ?( 
+                <div>
+                    <Csa/>
+                    <button onClick={this.handleLogout}>Logout</button>
+                </div>
+                )
+                
+                :( 
+                
+                <Login handleOnSubmit={this.handleOnSubmit}/>
+                
+                )
+        
+    }
 }
-NavBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(NavBar);
+export default App
