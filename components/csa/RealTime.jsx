@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import socketIOClient from "socket.io-client";
 
-class Sockets extends Component {
+class RealTime extends Component {
 
     constructor(...props) {
 
@@ -15,7 +15,7 @@ class Sockets extends Component {
     }
 
     componentDidMount() {
-        
+
         const { endpoint } = this.state;
         const socket = socketIOClient(endpoint);
         socket.on("realTime", data => this.setState({ response: JSON.parse(data) }));
@@ -23,7 +23,7 @@ class Sockets extends Component {
     }
 
     render() {
-    
+
         const { response } = this.state;
         return (
             <div style={{ textAlign: "center" }}>
@@ -37,4 +37,4 @@ class Sockets extends Component {
     }
 }
 
-export default Sockets
+export default RealTime

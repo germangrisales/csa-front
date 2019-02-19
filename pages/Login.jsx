@@ -46,7 +46,9 @@ class Login extends React.Component {
         super(...props)
     
         this.state = { 
+
             open: true,
+            
             form:{
               email: '',
               password: ''
@@ -58,30 +60,8 @@ class Login extends React.Component {
       this.handleClickOpen = this.handleClickOpen.bind(this)
       this.handleClose = this.handleClose.bind(this)
       this.handleChange = this.handleChange.bind(this)
-      
-      
     }
-
-  handleOnSubmit(e){
-
-    // alert('Click')
-    // e.preventDefault()
-
-    // let form = e.target
-
-    // console.log(form.email.value)
-
-    // console.log(form.password.value)
-
-    // this.setState({
-    //     mail: form.email.value,
-    //     password: form.password.value
-    // })
-
-    // console.log(this.state)
-  }
-
-
+  
   handleClickOpen(){
     this.setState({ open: true })
   }
@@ -105,6 +85,7 @@ class Login extends React.Component {
             [name]: value
         } 
     })
+  
   }
 
   render() {
@@ -187,8 +168,10 @@ class Login extends React.Component {
             {/* Aqui se mete los botones que realizn acciones */}
            
             <div onClick={this.handleClose}>
-              <SubmitButton handleOnClick={this.props.handleOnSubmit}  color="primary">
-              </SubmitButton>
+
+              <SubmitButton email={this.state.form.email} password={this.state.form.password} handleOnClick={this.props.handleOnSubmit}  color="primary">
+            
+            </SubmitButton>
             </div>
 
           </DialogActions>

@@ -11,7 +11,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { // Se importa react-router-dom y unos objetos necesarios
-    BrowserRouter as Router,// Se le asigna un 'Alias' para asiganrle el nombre de las versiones anteriores y hacerlos compatibles.
+    BrowserRouter as Router,  // Se le asigna un 'Alias' para asiganrle el nombre de las versiones anteriores y hacerlos compatibles.
     Route, // Objeto para el manejo de rutas.
     Link,// Objeto para el manejo de Enlaces
     Redirect,// Objeto para el manejo de Redireciones
@@ -21,7 +21,7 @@ import { // Se importa react-router-dom y unos objetos necesarios
 
 import {
     Locacion, Temperature, AirQuality,
-    Humidity, Fire, Actuators
+    Humidity, Fire, Actuators, ReferenceValues, RealTime 
 } from "../components/helpers/CsaComponents.jsx"
 // CsaComponents 
 
@@ -99,7 +99,9 @@ class Csa extends React.Component {
 
         this.state = {
 
-            open: false
+            open: false,
+            token: this.props.token
+
         };
 
         // this.handleOnSubmit = this.handleOnSubmit.bind(this)
@@ -192,46 +194,53 @@ class Csa extends React.Component {
 
                         <List>
 
-                            <ListItem button key={<Link to="/csa/location">Locación</Link>}>
+                            <ListItem button key={<Link to="/realtime">Tiempo Real</Link>}>
                                 <ListItemIcon>
                                     <LocationOnIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/location">LOCACIÓN</Link>} />
+                                <ListItemText primary={<Link to="/realtime">Tiempo Real</Link>} />
                             </ListItem>
 
-                            <ListItem button key={<Link to="/csa/temperatura">Temperatura</Link>}>
+                            <ListItem button key={<Link to="/temperatura">Temperatura</Link>}>
                                 <ListItemIcon>
                                     <WbSunnyIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/temperatura"> TEMPERATURA</Link>} />
+                                <ListItemText primary={<Link to="/temperatura"> TEMPERATURA</Link>} />
                             </ListItem>
 
-                            <ListItem button key={<Link to="/csa/humedad"> Humedad</Link>}>
+                            <ListItem button key={<Link to="/humedad"> Humedad</Link>}>
                                 <ListItemIcon>
                                     <CloudIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/humedad"> HUMEDAD</Link>} />
+                                <ListItemText primary={<Link to="/humedad"> HUMEDAD</Link>} />
                             </ListItem>
 
-                            <ListItem button key={<Link to="/csa/fuego">Fuego</Link>}>
+                            <ListItem button key={<Link to="/fuego">Fuego</Link>}>
                                 <ListItemIcon>
                                     <WhatshotIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/fuego"> FUEGO</Link>} />
+                                <ListItemText primary={<Link to="/fuego"> FUEGO</Link>} />
                             </ListItem>
 
-                            <ListItem button key={<Link to="/csa/actuadores"> Actuadores</Link>}>
+                            <ListItem button key={<Link to="/actuadores"> Actuadores</Link>}>
                                 <ListItemIcon>
                                     <ToysIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/actuadores"> ACTUADORES</Link>} />
+                                <ListItemText primary={<Link to="/actuadores"> ACTUADORES</Link>} />
                             </ListItem>
 
-                            <ListItem button key={<Link to="/csa/calidadAire">Aire</Link>}>
+                            <ListItem button key={<Link to="/calidadAire">Aire</Link>}>
                                 <ListItemIcon>
                                     <WifiTetheringIcon />
                                 </ListItemIcon>
-                                <ListItemText primary={<Link to="/csa/calidadAire">AIRE</Link>} />
+                                <ListItemText primary={<Link to="/calidadAire">AIRE</Link>} />
+                            </ListItem>
+
+                            <ListItem button key={<Link to="/referencevalues">Valores de Referencia</Link>}>
+                                <ListItemIcon>
+                                    <WifiTetheringIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={<Link to="/referencevalues">VALORES DE REFERENCIA</Link>} />
                             </ListItem>
 
                         </List>
@@ -247,21 +256,26 @@ class Csa extends React.Component {
                         <Grid container >
 
                             <Grid item xs={12}>
+
                                 <Switch>
 
-                                    <Route exact path='/csa' component={Locacion} />
+                                    <Route exact path='/' component={Actuators} />
 
-                                    <Route path='/csa/actuadores' component={Actuators} />
+                                    {/* <Route exact path='/csa' component={RealTime} /> */}
 
-                                    <Route path='/csa/temperatura' component={Temperature} />
+                                    <Route path='/actuadores' component={Actuators} />
 
-                                    <Route path='/csa/humedad' component={Humidity} />
+                                    <Route path='/temperatura' component={Temperature} />
 
-                                    <Route path='/csa/calidadAire' component={AirQuality} />
+                                    <Route path='/humedad' component={Humidity}/>
 
-                                    <Route path='/csa/fuego' component={Fire} />
+                                    <Route path='/calidadAire' component={AirQuality} />
 
-                                    <Route path='/csa/location' component={Locacion} />
+                                    <Route path='/fuego' component={Fire} />
+
+                                    <Route path='/realtime' component={RealTime} />
+
+                                    <Route path='/referencevalues' component={ReferenceValues} />
 
                                 </Switch>
 

@@ -23,19 +23,56 @@ const styles = theme => ({
         fontSize: 20,
     },
 });
+    
+class SubmitButton extends React.Component {
 
-function SubmitButton(props) {
-    const { classes } = props;
-    return (
-        <div>
+        constructor(...props) {
+            super(...props)
 
-            <Button onClick={props.handleOnClick} variant="contained" color="primary" className={classes.button}>
-                Send
-                 <SendIcon className={classes.rightIcon}/>
-            </Button>
+            this.state = {
 
-        </div>
-    );
+                form: {
+                    email: this.props.email ,
+                    password: this.props.password 
+                }
+
+            }
+            this.handleOnClick = this.handleOnClick.bind(this)
+            this.handleOnMouseOver = this.handleOnMouseOver.bind(this)
+        
+        }
+    handleOnClick(){
+
+        this.props.handleOnClick(this.state.form)       
+    }
+
+    handleOnMouseOver() {
+
+    console.log("OnMouseOver")
+
+        this.setState({
+
+            form: {
+                email: this.props.email,
+                password: this.props.password
+            }
+        })
+
+    }
+
+    render(){
+            const { classes } = this.props;
+        return (
+            <div>
+
+                <Button onMouseOver={this.handleOnMouseOver} onClick={this.handleOnClick} variant="contained" color="primary" className={classes.button}>
+                    Send
+                    <SendIcon className={classes.rightIcon}/>
+                </Button>
+
+            </div>
+        );
+    }   
 }
 
 SubmitButton.propTypes = {

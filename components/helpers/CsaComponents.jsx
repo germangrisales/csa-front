@@ -4,6 +4,11 @@ import AirQuality from "../csa/AirQuality.jsx";
 import Humidity from "../csa/Humidity.jsx";
 import Fire from "../csa/Fire.jsx";
 import Actuators from "../csa/Actuators.jsx";
+import RealTime from "../csa/RealTime.jsx";
+
+import ReferenceValues from "../csa/ReferenceValues.jsx";
+
+
 
 
 export {
@@ -12,5 +17,7 @@ export {
     AirQuality,
     Humidity,
     Fire,
-    Actuators
+    Actuators,
+    RealTime,
+    ReferenceValues
 } 

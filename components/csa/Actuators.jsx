@@ -3,6 +3,9 @@ import MySlider from "../helpers/Slider.jsx"
 
 import SubmitButton from '../helpers/SubmitButton.jsx';
 
+import Switches from '../helpers/Switches.jsx';
+
+import axios from 'axios';
 
 class Actuadores extends React.Component {
 
@@ -11,79 +14,124 @@ class Actuadores extends React.Component {
 
         this.state = {
 
-            value: null,
-            maxValueTemperature: null,
-            minValueTemperature: null,
-
-            maxValueHumidity: null,
-            minValueHumidity: null,
-
-            maxValueAirQuality: null
-         
+            luces: null, // Se cambia a null en uso real
+            ventiladores: null // Se cambia a null en uso real 
 
         }
         
-        this.handleGetMaxValueTemperature = this.handleGetMaxValueTemperature.bind(this)
-        this.handleGetMinValueTemperature = this.handleGetMinValueTemperature.bind(this)
 
-        this.handleGetMaxValueHumidity = this.handleGetMaxValueHumidity.bind(this)
-        this.handleGetMinValueHumidity = this.handleGetMinValueHumidity.bind(this)
+        axios({
+            method: 'get',
+            url: "https://csaserver.herokuapp.com/referenceValues",
 
-        this.handleGetMaxValueAirQuality = this.handleGetMaxValueAirQuality.bind(this)
-        
+        }).then(response => {
+
+            console.log(response.data)
+
+            const luces = response.data.latestReferenceValues.actuators[0]
+            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
+
+            const ventiladores = response.data.latestReferenceValues.actuators[1]
+            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
+
+            console.log("Luces: " + luces)
+            console.log("Ventilador: " + ventiladores)
+            // Se confirma el estado en el que esten
+
+
+            if (luces === 1) { // Si está prendido = 1 <---> setea el estado en True
+
+                this.setState({
+                    luces: true,
+                })
+            }
+            if (luces === 0) { // Si está prendido = 0 <---> setea el estado en False
+                this.setState({
+                    luces: false,
+                })
+            }
+
+            if (ventiladores === 1) {// Si está prendido = 1 <---> setea el estado en True
+
+                this.setState({
+                    ventiladores: true,
+                })
+            }
+            if (ventiladores === 0) {// Si está prendido = 0 <---> setea el estado en False
+                this.setState({
+                    ventiladores: false,
+                })
+            }
+
+           
+        })
+            .catch(function (error) {
+                console.log("Este es el error");
+                console.log(error);
+            });   
     }
 
-    // Temperatura:
-    handleGetMaxValueTemperature(value){
-        this.setState({ maxValueTemperature:value });
-    }
-    handleGetMinValueTemperature(value) {
-        this.setState({ minValueTemperature: value });
-    }
+    componentWillMount(){
+        // Petición al servidor con la información del Día
+    
+        axios({
+            method: 'get',
+            url: "https://csaserver.herokuapp.com/referenceValues",
 
-    //Humedad:
-    handleGetMaxValueHumidity(value) {
-        this.setState({ maxValueHumidity: value });
-    }
-    handleGetMinValueHumidity(value) {
-        this.setState({ minValueHumidity: value });
-    }
+        }).then(response => {
+
+            console.log(response.data)
+
+            const luces = response.data.latestReferenceValues.actuators[0]
+            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
+
+            const ventiladores = response.data.latestReferenceValues.actuators[1]
+            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
 
 
-    //Calidad de Aire:
-    handleGetMaxValueAirQuality(value) {
-        this.setState({ maxValueAirQuality: value });
+            if (luces === 1) { // Si está prendido = 1 <---> setea el estado en True
+
+                this.setState({
+                    luces: true,
+                })
+            }
+            if (luces === 0) { // Si está prendido = 0 <---> setea el estado en False
+                this.setState({
+                    luces: false,
+                })
+            }
+
+            if (ventiladores === 1) {// Si está prendido = 1 <---> setea el estado en True
+
+                this.setState({
+                    ventiladores: true,
+                })
+            }
+            if (ventiladores === 0) {// Si está prendido = 0 <---> setea el estado en False
+                this.setState({
+                    ventiladores: false,
+                })
+            }
+
+            console.log("Luces: " + luces)
+            console.log("Ventilador: " + ventiladores)
+            // Se confirma el estado en el que esten
+
+        })
+            .catch(function (error) {
+                console.log("Este es el error");
+                console.log(error);
+            });   
+           
     }
    
     render() {
         return (
             <div>
-                <h1>Valores de Referencia</h1>
-
-                <h2>Temperatura</h2>
-                <p>Ingrese valores máximos y minimos:</p>
+                <Switches luces={this.state.luces} ventiladores={this.state.ventiladores} />
                 
-                <MySlider label="Valor Máximo" unidad='ºC' sendValue={this.handleGetMaxValueTemperature}/>
-
-                <MySlider label="Valor Mínimo" unidad='ºC'sendValue={this.handleGetMinValueTemperature} />
-
-                <h2>Humedad</h2>
-                <p>Ingrese valores máximos y minimos:</p>
-                
-                <MySlider label="Valor Máximo" unidad='%' sendValue={this.handleGetMaxValueHumidity} />
-
-                <MySlider label="Valor Mínimo" unidad='%' sendValue={this.handleGetMinValueHumidity} />
-
-                <h2>Calidad de Aire</h2>
-                <p>Ingrese valores máximos:</p>
-                <MySlider label="Valor Máximo" unidad='%' sendValue={this.handleGetMaxValueAirQuality} />
-
-                <SubmitButton/>
-                
-
             </div>
-           
-
+        
         )
     }
 }

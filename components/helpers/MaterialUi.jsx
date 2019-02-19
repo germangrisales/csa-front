@@ -17,6 +17,7 @@ import CloudIcon from "@material-ui/icons/Cloud";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import ToysIcon from "@material-ui/icons/Toys";
 import WifiTetheringIcon from "@material-ui/icons/WifiTethering";
+import WbIncandescentIcon from "@material-ui/icons/WbIncandescent";
 
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -80,5 +81,6 @@ export {
     TextField,
     AccountCircleIcon,
     DialogActions,
-    SendIcon
+    SendIcon,
+    WbIncandescentIcon
 }
