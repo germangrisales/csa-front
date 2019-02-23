@@ -1,15 +1,18 @@
 import {
-    DialogActions, AccountCircleIcon, TextField, DialogContentText, DialogContent, DialogTitle, Dialog, withStyles, Button 
-} from "../components/helpers/MaterialUi.jsx"
+   SendIcon, DialogActions, AccountCircleIcon, TextField, DialogContentText, DialogContent, DialogTitle, Dialog, withStyles, Button 
+} from "./helpers/MaterialUi.jsx"
 // Todo los componentes material UI se deben agregar en "./helpers/MaterialUi.jsx
 
 import React,{Fragment} from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import Register from '../components/Register.jsx'
+import Register from './Register.jsx'
 
-import SubmitButton from '../components/helpers/SubmitButton.jsx';
+import SubmitButton from './helpers/SubmitButton.jsx';
+
+import fetch from 'isomorphic-unfetch'
+
 
 
 const styles = theme => ({
@@ -37,6 +40,9 @@ const styles = theme => ({
   item: {
     verticalAlign:'middle',
   },
+  rightIcon: {
+    marginLeft: theme.spacing.unit,
+  },
 });
 
 
@@ -47,8 +53,9 @@ class Login extends React.Component {
     
         this.state = { 
 
-            open: true,
-            
+            authed:'',
+            open: false,
+            token: "",    
             form:{
               email: '',
               password: ''
@@ -60,8 +67,82 @@ class Login extends React.Component {
       this.handleClickOpen = this.handleClickOpen.bind(this)
       this.handleClose = this.handleClose.bind(this)
       this.handleChange = this.handleChange.bind(this)
+      this.handleOnClick = this.handleOnClick.bind(this)
+     
+      
     }
-  
+
+  handleOnClick(){
+
+    console.log("E-mail:")
+    console.log(this.state.form.email)
+    
+    console.log("Password:")
+    console.log(this.state.form.password)
+    
+    let   peticionAsincrona = async () => {
+      let response1 = await fetch('http://192.168.1.30:3030/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: this.state.form.email,
+          passwd: this.state.form.password
+        })
+      })
+      
+      let response = await response1.json()
+      
+      console.log("response")
+      console.log(response)
+      const auth = response.ok
+      const token = response.token
+      const user = response.user
+
+      console.log("authenticated:")
+      console.log(auth)
+      console.log("Token:")
+      console.log(token)
+      console.log("Usuario:")
+      console.log(user)
+
+      const name = response.user.name
+      const email = response.user.email
+      const role = response.user.role
+     
+      console.log(name)
+      console.log(email)
+      console.log(role)
+     
+      // CREAR EL AVATAR!
+      // CONFIGURAR EL REGISTER PARA HACER EL POST!
+
+
+
+      if (auth === true) {
+
+                    console.log("Dentro del if!")
+
+                    this.setState({
+                        authed: true,
+
+                        token: token
+                    })
+                    
+                    this.props.handleAuthentication(auth,token)
+                    console.log("Haz sido autenticado")
+
+       }
+       else{
+          alert("Usuario o/y contraseña INCORRECTA/S")
+       }
+      
+    }
+    peticionAsincrona()
+    // Ejecuta la petición Asincrona  
+  }
+
   handleClickOpen(){
     this.setState({ open: true })
   }
@@ -88,6 +169,7 @@ class Login extends React.Component {
   
   }
 
+
   render() {
     const { classes } = this.props;
     const { open, form:{email, password} } = this.state;
@@ -97,7 +179,7 @@ class Login extends React.Component {
 
     <Fragment>
         
-        <Button onClick={this.handleClickOpen}>Login</Button>
+        <Button color="inherit" onClick={this.handleClickOpen}>Login</Button>
         
         <Dialog // <Dialog> Aqui va todo el Login </Dialog>
           // fullScreen={fullScreen}
@@ -167,12 +249,11 @@ class Login extends React.Component {
           <DialogActions>
             {/* Aqui se mete los botones que realizn acciones */}
            
-            <div onClick={this.handleClose}>
 
-              <SubmitButton email={this.state.form.email} password={this.state.form.password} handleOnClick={this.props.handleOnSubmit}  color="primary">
-            
-            </SubmitButton>
-            </div>
+            <Button onClick={this.handleOnClick} variant="contained" color="primary" className={classes.button}>
+              Send
+            <SendIcon className={classes.rightIcon} />
+            </Button>
 
           </DialogActions>
         </Dialog>

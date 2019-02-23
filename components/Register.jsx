@@ -1,5 +1,5 @@
 import {
-    withStyles, MenuItem, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, withMobileDialog
+   SendIcon, withStyles, MenuItem, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, withMobileDialog
 } from "../components/helpers/MaterialUi.jsx"
 // Todo los componentes material UI se deben agregar en "./helpers/MaterialUi.jsx
 
@@ -43,16 +43,14 @@ class Register extends React.Component {
             open: false,
             form:{
               name:'', 
-              profession:'',
-              description: '', 
               email: '',
-              tel: '',
+              phone: '',
               password: ''
             }
            
         }
         
-        this.handleOnSubmit = this.handleOnSubmit.bind(this)
+      this.handleOnClick = this.handleOnClick.bind(this)
       this.handleClickOpen = this.handleClickOpen.bind(this)
       this.handleClose = this.handleClose.bind(this)
       this.handleChange = this.handleChange.bind(this)
@@ -60,25 +58,55 @@ class Register extends React.Component {
       
     }
 
-  handleOnSubmit(e){
+  handleOnClick() {
 
-    // alert('Click')
-    // e.preventDefault()
+    console.log("Nombre:")
+    console.log(this.state.form.name)
 
-    // let form = e.target
+    console.log("E-mail:")
+    console.log(this.state.form.email)
 
-    // console.log(form.email.value)
+    console.log("Password:")
+    console.log(this.state.form.password)
 
-    // console.log(form.password.value)
+    console.log("Profesión:")
+    console.log(this.state.form.profession)
 
-    // this.setState({
-    //     mail: form.email.value,
-    //     password: form.password.value
-    // })
+    console.log("Descripción:")
+    console.log(this.state.form.description)
 
-    // console.log(this.state)
+    console.log("Telefono:")
+    console.log(this.state.form.phone)
+
+    let peticionAsincrona = async () => {
+      let response1 = await fetch('http://192.168.1.25:3030/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: this.state.form.name,
+          email: this.state.form.email,
+          password: this.state.form.password,
+          phone: this.state.form.phone
+          
+        })
+      })
+
+      let response = await response1.json()
+
+      console.log("response")
+      console.log(response)
+  
+
+
+      // CREAR EL AVATAR!
+      // CONFIGURAR EL REGISTER PARA HACER EL POST!
+
+    }
+    peticionAsincrona()
+    // Ejecuta la petición Asincrona  
   }
-
 
   handleClickOpen(){
     this.setState({ open: true })
@@ -107,13 +135,13 @@ class Register extends React.Component {
 
   render() {
     const { classes } = this.props;
-      const { open, form: {name,profession,description,email,tel,password} } = this.state;
+      const { open, form: {name,email,phone,password} } = this.state;
 
 
     return (
 
     <Fragment>
-        <Button onClick={this.handleClickOpen}>Registrarme</Button>
+        <Button color="inherit" onClick={this.handleClickOpen}>Registráte</Button>
         
         <Dialog // <Dialog> Aqui va todo el Register </Dialog>
           // fullScreen={fullScreen}
@@ -151,41 +179,6 @@ class Register extends React.Component {
                 />
               <br/>
               <TextField
-                id="standard-name"
-                name="profession"
-                label="Profesión"
-                className={classes.textField}
-                value={profession}
-                onChange={this.handleChange}
-                margin="normal"
-                autoComplete="profession"
-              />
-               <br />
-               <TextField
-                   id="standard-multiline-flexible"
-                   name="description"
-                   label="Descripción"
-                   multiline
-                   rowsMax="5"
-                   value={description}
-                   onChange={this.handleChange}
-                   className={classes.textField}
-                   margin="normal"
-               />
-               <br/>
-               <TextField
-                   id="standard-number"
-                   name="tel"
-                   label="Teléfono"
-                   type="number"
-                   className={classes.textField}
-                   value={tel}
-                   onChange={this.handleChange}
-                   margin="normal"
-                autoComplete="number"
-               />
-               <br/>
-              <TextField
                 name="email"
                 label="E-mail"
                 className={classes.textField}
@@ -208,6 +201,19 @@ class Register extends React.Component {
                 autoComplete="current-password"
                 margin="normal" 
               />
+              <br />
+              <TextField
+                id="standard-number"
+                name="phone"
+                label="Teléfono"
+                type="number"
+                className={classes.textField}
+                value={phone}
+                onChange={this.handleChange}
+                margin="normal"
+                autoComplete="number"
+              />
+              
     
             </form>
           </DialogContent>
@@ -217,8 +223,10 @@ class Register extends React.Component {
             {/* Aqui se mete los botones que realizn acciones */}
            
             <div onClick={this.handleClose}>
-              <SubmitButton  color="primary">
-              </SubmitButton>
+              <Button onClick={this.handleOnClick} variant="contained" color="primary" className={classes.button}>
+                Send
+              <SendIcon className={classes.rightIcon} />
+              </Button>
             </div>
           </DialogActions>
          

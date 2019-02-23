@@ -1,10 +1,12 @@
 import React from 'react';
 
-import axios from 'axios';
 import {
     WbIncandescentIcon, withStyles, Drawer, CssBaseline, AppBar, Toolbar, List, Typography, Divider, IconButton, MenuIcon, Button, LocationOnIcon, WbSunnyIcon, CloudIcon, WhatshotIcon, ToysIcon, WifiTetheringIcon, ChevronLeftIcon, ChevronRightIcon, ListItem, ListItemIcon, ListItemText, InboxIcon, MailIcon, Paper, Grid
 } from "./MaterialUi.jsx"
 // Todo los componentes material UI se deben agregar en "./helpers/MaterialUi.jsx
+
+     // CREAR EL AVATAR!
+            // CONFIGURAR EL REGISTER PARA HACER EL POST!
 
 const styles = theme => ({
     lightOn: {
@@ -43,91 +45,172 @@ class Switches extends React.Component {
         this.handleOnClickLight = this.handleOnClickLight.bind(this)
         this.handleOnClickFan = this.handleOnClickFan.bind(this)
 
-        // axios({
-        //     method: 'get',
-        //     url: "http://192.168.1.8:8080/referenceValues",
-
-        // }).then(response => {
-
-    //         console.log(response)
-
-    //             const luces = response.data.latestReferenceValues.actuators[0]
-    //             // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
-
-    //             const ventiladores = response.data.latestReferenceValues.actuators[1]
-    //             // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
-
-
-    //             if (luces === 1) { // Si está prendido = 1 <---> setea el estado en True
-
-    //                 this.setState({
-    //                     luces: true,
-    //                 })
-    //             }
-    //             if (luces === 0) { // Si está prendido = 0 <---> setea el estado en False
-    //                 this.setState({
-    //                     luces: false,
-    //                 })
-    //             }
-
-    //             if (ventiladores === 1) {// Si está prendido = 1 <---> setea el estado en True
-
-    //                 this.setState({
-    //                     ventiladores: true,
-    //                 })
-    //             }
-    //             if (ventiladores === 0) {// Si está prendido = 0 <---> setea el estado en False
-    //                 this.setState({
-    //                     ventiladores: false,
-    //                 })
-    //             }
-
-    //             console.log("Luces: " + luces)
-    //             console.log("Ventilador: " + ventiladores)
-    //             // Se confirma el estado en el que esten
-
-    //         })
-    //         .catch(function (error) {
-    //             console.log("Este es el error");
-    //             console.log(error);
-    //         });
- 
     }
 
     handleOnClickLight(){
 
+        console.log("Click Click Click Click Click en LUCES")
 
-        if (this.state.luces === true){
+        const actuators = this.props.actuators
+        console.log("Actuadors Estado Anterior")
+        console.log(actuators)
 
-            this.setState({
-                luces: false     
-            })
+        let newActuators
+
+        let OnFlag
+
+        if (actuators[0] === 1){
+           
+            console.log("IF:Actuadors Anterior")
+
+            actuators[0] = 0
+
+            OnFlag = false;
+
+            console.log("IF: Actuadors Con cambio")
+            console.log(actuators)
         }
-        if (this.state.luces === false) {
+        else {
+            console.log("ELSE: Actuadors Anterior")
+            console.log(actuators)
 
-            this.setState({
-                luces: true
+            actuators[0] = 1
+            OnFlag = true;
 
-            })
+            console.log("ELSE: Actuadors Con cambio")
+            console.log(actuators)
         }
+
+       // const token = this.props.token
+       // programar que cuando envie el post tambien envie el TOKEN
+
+        console.log("New Actuadors: Fuera del if")
+        console.log(actuators)
+
+        let peticionAsincrona = async () => {
+            let response1 = await fetch('http://192.168.1.30:3030/actuators', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    actuators: actuators,
+                    flag: true,
+                    switch: 'app'
+                })
+            })
+
+            let response = await response1.json()
+
+            console.log("response: ")
+            console.log(response)
+    
+            // CREAR EL AVATAR!
+            // CONFIGURAR EL REGISTER PARA HACER EL POST!
+
+            if (response.ok === true && OnFlag=== true) {
+
+                console.log("LUCES ON: Cambio resgistrado BD")
+
+                this.setState({
+                    luces: true
+                })
+            } if (response.ok === true && OnFlag === false) {
+
+                console.log("LUCES OFF: Cambio resgistrado BD")
+
+                this.setState({
+                    luces: false
+                })
+            }
+         
+        }
+        peticionAsincrona()
+        // Ejecuta la petición Asincrona  
+    
     }
 
     handleOnClickFan() {
 
+        const actuators = this.props.actuators
+        console.log("Actuadors Estado Anterior")
+        console.log(actuators)
 
-        if (this.state.ventiladores === true) {
+        console.log("Click Click Click Click Click en Vetiladores")
 
-            this.setState({
-                ventiladores: false
-            })
+        let newActuators
+
+        let OnFlag
+
+        if (actuators[1] === 1) {
+            
+            console.log("IF:Actuadors Anterior")
+            
+            actuators[1]=0
+            
+            OnFlag = false;
+
+            console.log("IF: Actuadors Con cambio")
+            console.log(actuators)
         }
-        if (this.state.ventiladores === false) {
+        else {
 
-            this.setState({
-                ventiladores: true
+            console.log("ELSE: Actuadors Anterior")
+            console.log(actuators)
 
-            })
+            actuators[1] = 1
+            OnFlag = true;
+
+            console.log("ELSE: Actuadors Con cambio")
+            console.log(actuators)
         }
+
+        // const token = this.props.token
+        // programar que cuando envie el post tambien envie el TOKEN
+
+        console.log("New Actuadors: Fuera del if")
+        console.log(actuators)
+
+        let peticionAsincrona = async () => {
+            let response1 = await fetch('http://192.168.1.30:3030/actuators', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    actuators: actuators,
+                    flag: true,
+                    switch: 'app'
+                })
+            })
+
+            let response = await response1.json()
+
+            console.log("response: ")
+            console.log(response)
+
+            // CREAR EL AVATAR!
+            // CONFIGURAR EL REGISTER PARA HACER EL POST!
+
+            if (response.ok === true && OnFlag === true) {
+
+                console.log("VENTILADORES ON: Cambio resgistrado BD")
+
+                this.setState({
+                    ventiladores: true
+                })
+            } if (response.ok === true && OnFlag === false) {
+
+                console.log("VENTILADORE OFF: Cambio resgistrado BD")
+
+                this.setState({
+                    ventiladores: false
+                })
+            }
+
+        }
+        peticionAsincrona()
+        // Ejecuta la petición Asincrona  
     }
     
     componentWillReceiveProps(){

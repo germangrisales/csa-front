@@ -71,7 +71,7 @@ class SubmitButton extends React.Component {
                 </Button>
 
             </div>
-        );
+        )
     }   
 }
 

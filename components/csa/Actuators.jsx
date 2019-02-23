@@ -13,7 +13,8 @@ class Actuadores extends React.Component {
         super(...props)
 
         this.state = {
-
+            
+            actuators:[ ],
             luces: null, // Se cambia a null en uso real
             ventiladores: null // Se cambia a null en uso real 
 
@@ -22,16 +23,24 @@ class Actuadores extends React.Component {
 
         axios({
             method: 'get',
-            url: "https://csaserver.herokuapp.com/referenceValues",
+            url: 'http://192.168.1.30:3030/actuators',
 
         }).then(response => {
 
             console.log(response.data)
 
-            const luces = response.data.latestReferenceValues.actuators[0]
+            const actuators = response.data.latestActuators.actuators
+
+            this.setState({
+                actuators: actuators
+            })
+            console.log("Actuadores: Valores anteriores")
+            console.log(this.state.actuators)
+
+            const luces = response.data.latestActuators.actuators[0]
             // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
 
-            const ventiladores = response.data.latestReferenceValues.actuators[1]
+            const ventiladores = response.data.latestActuators.actuators[1]
             // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
 
             console.log("Luces: " + luces)
@@ -73,22 +82,28 @@ class Actuadores extends React.Component {
 
     componentWillMount(){
         // Petición al servidor con la información del Día
-    
+        
         axios({
             method: 'get',
-            url: "https://csaserver.herokuapp.com/referenceValues",
+            url: "http://192.168.1.30:3030/actuators",
 
         }).then(response => {
 
             console.log(response.data)
 
-            const luces = response.data.latestReferenceValues.actuators[0]
+            const actuators = response.data.latestActuators.actuators
+
+            this.setState({
+                actuators: actuators
+            })
+            console.log("Actuadores: Valores anteriores")
+            console.log(this.state.actuators)
+
+            const luces = response.data.latestActuators.actuators[0]
             // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
 
-            const ventiladores = response.data.latestReferenceValues.actuators[1]
-            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1 = ON 0 = OFF
-
-
+            const ventiladores = response.data.latestActuators.actuators[1]
+            // Se captura el estado del actuador "Luces" de la respuesta de la petición Axios 1Actuatos
             if (luces === 1) { // Si está prendido = 1 <---> setea el estado en True
 
                 this.setState({
@@ -126,13 +141,16 @@ class Actuadores extends React.Component {
     }
    
     render() {
+       
         return (
             <div>
-                <Switches luces={this.state.luces} ventiladores={this.state.ventiladores} />
+                <Switches token={this.state.token} actuators={this.state.actuators} luces={this.state.luces} ventiladores={this.state.ventiladores} />
                 
             </div>
         
         )
     }
 }
+
+// ""FALTA PROGRAMAR EL TOKEN."
 export default Actuadores 

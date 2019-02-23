@@ -136,8 +136,6 @@ class Csa extends React.Component {
                     >
                         <Toolbar disableGutters={!open}>
 
-
-
                             <IconButton
                                 color="inherit"
                                 aria-label="Open drawer"
@@ -150,7 +148,7 @@ class Csa extends React.Component {
                             </IconButton>
 
                             <Typography variant="h6" color="inherit" noWrap>
-                                CSA: Control Sistematizado Agrícola
+                                CSA
                             </Typography>
                             <Grid container
                                 spacing={16}
@@ -160,9 +158,8 @@ class Csa extends React.Component {
                                 justify="flex-end"
                             >
 
-                                <Grid item ><Button color="inherit" >Login</Button></Grid>
+                                <Grid item> <Button onClick={this.props.handleLogout} color="inherit" >Logout</Button></Grid>
 
-                                <Grid item ><Button color="inherit">Register</Button></Grid>
 
                             </Grid>
 
