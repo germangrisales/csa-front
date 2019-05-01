@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "next start -p $PORT",
-    "heroku-postbuild": "next build"
+    "start": "next start -p 8080"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +22,8 @@
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
+    "dotenv": "^7.0.0",
+    "dotenv-webpack": "^1.7.0",
     "express": "^4.16.4",
     "isomorphic-unfetch": "^3.0.0",
     "moment": "^2.23.0",

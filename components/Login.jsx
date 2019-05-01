@@ -81,7 +81,7 @@ class Login extends React.Component {
     console.log(this.state.form.password)
     
     let   peticionAsincrona = async () => {
-      let response1 = await fetch('http://192.168.1.30:3030/login', {
+      let response1 = await fetch(`${process.env.API_URI}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

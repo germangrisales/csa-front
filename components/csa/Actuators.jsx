@@ -23,7 +23,7 @@ class Actuadores extends React.Component {
 
         axios({
             method: 'get',
-            url: 'http://192.168.1.30:3030/actuators',
+            url: `${process.env.API_URI}/actuators`,
 
         }).then(response => {
 
@@ -85,7 +85,7 @@ class Actuadores extends React.Component {
         
         axios({
             method: 'get',
-            url: "http://192.168.1.30:3030/actuators",
+            url: `${process.env.API_URI}/actuators`,
 
         }).then(response => {
 
